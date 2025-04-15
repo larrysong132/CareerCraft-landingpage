@@ -7,6 +7,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,9 +29,13 @@ jobs:
           ls -la dist
       
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.DEPLOY_TOKEN }}
-          publish_dir: ./dist
-          commit_message: "Deploy to GitHub Pages"
-          force: true 
+          folder: dist
+          branch: gh-pages
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          clean: true
+          clean-exclude: |
+            .nojekyll
+            CNAME
+            .github 
