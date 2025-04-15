@@ -21,10 +21,15 @@ jobs:
         run: npm install
       
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          echo "Build completed. Checking dist directory:"
+          ls -la dist
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.DEPLOY_TOKEN }}
-          publish_dir: ./dist 
+          publish_dir: ./dist
+          commit_message: "Deploy to GitHub Pages"
+          force: true 
