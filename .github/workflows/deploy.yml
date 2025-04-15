@@ -40,9 +40,11 @@ jobs:
           ls -la dist
       
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}
+          # Automatically inject basePath in your next configuration
+          static_site_generator: vite
           enablement: true
       
       - name: Upload artifact
