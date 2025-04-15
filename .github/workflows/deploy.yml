@@ -46,6 +46,7 @@ jobs:
           # Automatically inject basePath in your next configuration
           static_site_generator: vite
           enablement: true
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -63,4 +64,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }} 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: dist 
