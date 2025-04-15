@@ -28,7 +28,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          npm ci --verbose
+          npm install
           npm cache clean --force
           npm list
           node -v
@@ -37,13 +37,13 @@ jobs:
       - name: Build
         run: |
           rm -rf dist
-          npm run build || (echo "Build failed" && exit 1)
-          echo "Contents of dist directory:"
-          ls -la dist
-          echo "Contents of dist/assets directory:"
-          ls -la dist/assets
-          echo "Contents of index.html:"
-          cat dist/index.html
+          NODE_ENV=production npm run build
+          echo "Build completed. Checking dist directory:"
+          ls -la dist || echo "dist directory not found"
+          echo "Checking dist/assets directory:"
+          ls -la dist/assets || echo "dist/assets directory not found"
+          echo "Checking index.html:"
+          cat dist/index.html || echo "index.html not found"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
