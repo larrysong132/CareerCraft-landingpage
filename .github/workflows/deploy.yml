@@ -34,7 +34,7 @@ jobs:
       
       - name: Build
         run: |
-          npm run clean
+          rm -rf dist
           npm run build
           ls -la dist
       
