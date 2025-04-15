@@ -7,6 +7,12 @@ export default defineConfig({
   base: '/CareerCraft-landingpage/',
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   }
 })
