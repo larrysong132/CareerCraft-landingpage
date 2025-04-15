@@ -9,19 +9,10 @@ permissions:
   contents: write
   pages: write
   id-token: write
-  actions: write
-
-# Allow only one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,36 +24,26 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: |
-          npm install
-          npm cache clean --force
-          npm list
-          node -v
-          npm -v
+        run: npm install
       
       - name: Build
-        run: |
-          rm -rf dist
-          NODE_ENV=production npm run build
-          echo "Build completed. Checking dist directory:"
-          ls -la dist || echo "dist directory not found"
-          echo "Checking dist/assets directory:"
-          ls -la dist/assets || echo "dist/assets directory not found"
-          echo "Checking index.html:"
-          cat dist/index.html || echo "index.html not found"
+        run: npm run build
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        with:
-          # Automatically inject base path in your index.html
-          static_site_generator: vite
-          enablement: true
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4 
