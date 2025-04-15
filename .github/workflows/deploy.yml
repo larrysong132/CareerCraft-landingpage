@@ -31,12 +31,18 @@ jobs:
         run: |
           npm ci
           npm cache clean --force
+          npm list
       
       - name: Build
         run: |
           rm -rf dist
           npm run build
+          echo "Contents of dist directory:"
           ls -la dist
+          echo "Contents of dist/assets directory:"
+          ls -la dist/assets
+          echo "Contents of index.html:"
+          cat dist/index.html
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
